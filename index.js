@@ -27,6 +27,14 @@ yield Episode7.call(functionToCall, arg1, arg2)
 
 Passes through to JavaScript `Function.prototype.call`.
 
+`call` also supports also invoking object methods, you can provide a `this`
+context to the invoked functions using the following form. (Syntax copied 
+from [redux-saga](http://yelouafi.github.io/redux-saga/docs/basics/DeclarativeEffects.html))
+
+```javascript
+yield Episode7.call([obj, obj.method], arg1, arg2)
+```
+
 The return value is not passed back to the yield statement. Episode 7
 will call `functionToCall` when running and return a Promise resolving
 with its return value.
@@ -57,6 +65,11 @@ function recursiveRun(genInstance, nextArg) {
     } else {
       let v = nextResult.value;
       let fn = v.fn;
+      let thisArg;
+      if (fn instanceof Array) {
+        thisArg = fn[0];
+        fn = fn[1];
+      }
       let args = v.args;
 
       if (fn == null || args == null) {
@@ -78,7 +91,7 @@ function recursiveRun(genInstance, nextArg) {
         sideEffect = Promise.resolve()
           .then(function() {
             // Wrapped in `then` to promisify return value
-            return fn.call(null, ...args)
+            return fn.call(thisArg, ...args)
           })
       }
       return sideEffect

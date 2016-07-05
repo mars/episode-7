@@ -43,7 +43,7 @@ function fetchJson(url) {
 // Compose a Generator for an async call sequence.
 function* findFirstMovie(searchTerm) {
 
-  // Wrap yielded function calls with Episode 7.
+  // Wrap side-effects with Episode 7's `call`
   let results = yield Episode7.call(
     fetchJson, `http://www.omdbapi.com/?s=${searchTerm}`
   );

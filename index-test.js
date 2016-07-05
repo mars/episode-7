@@ -89,6 +89,23 @@ test('Run a generator yielding to nested generators for side-effects', t => {
     .then( fortune => t.deepEqual(['🔮', '💰'], fortune) );
 });
 
+test('Calls side-effect functions with `this` arg', t => {
+  t.plan(1);
+
+  function* revealInnerSecret() {
+    let contents = { secret: '💎' }
+    return yield Episode7.call([contents, openUp]);
+  }
+
+  function openUp() {
+    let secret = this.secret;
+    return secret;
+  }
+
+  return Episode7.run(revealInnerSecret)
+    .then( secret => t.is('💎', secret) );
+});
+
 test('Clearly present side-effect errors', t => {
   t.plan(1);
 
