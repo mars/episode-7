@@ -1,6 +1,6 @@
 {
   "name": "episode-7",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Sequence async side-effects with ES6 generators and easily test them.",
   "engines": {
     "node": ">=6.2.0"
@@ -9,8 +9,12 @@
   "scripts": {
     "test": "`npm bin`/ava *-test.js"
   },
-  "author": "",
-  "license": "ISC",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/mars/episode-7.git"
+  },
+  "author": "m@marsorange.com",
+  "license": "MIT",
   "devDependencies": {
     "ava": "^0.15.2"
   }
