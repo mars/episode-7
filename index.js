@@ -13,7 +13,7 @@ function run(generator, ...args) {
 }
 
 /*
-Yield a side-effect to Episode 7
+Perform a side-effect with Episode 7
 
 ```javascript
 yield Episode7.call(functionToCall, arg1, arg2)
@@ -30,7 +30,14 @@ function call(fn, ...args) {
   return { fn, args };
 }
 
+/*
+Internal function to run the generator, waiting on
+each side-effect's returned Promise.
 
+Each side-effect function is executed via standard
+JavaScript `Function.prototype.call`.
+
+*/
 function recursiveRun(genInstance, nextArg) {
   let nextResult = genInstance.next(nextArg);
   if (nextResult.done) {
@@ -39,6 +46,7 @@ function recursiveRun(genInstance, nextArg) {
     let v = nextResult.value;
     let fn = v.fn;
     let args = v.args;
+    // Side-effect function is called without `this`.
     return fn.call(null, ...args)
       .then(function(result) {
         return recursiveRun(genInstance, result);
