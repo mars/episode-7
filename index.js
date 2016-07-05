@@ -8,8 +8,13 @@ let result = Episode7.run(yourGeneratorFunction);
 Returns a Promise resolving when the generator is done.
 */
 function run(generator, ...args) {
-  let g = generator(...args);
-  return recursiveRun(g);
+  try {
+    let g = generator(...args);
+    return recursiveRun(g);
+
+  } catch(error) {
+    return Promise.reject(error);
+  }
 }
 
 /*
@@ -18,6 +23,8 @@ Perform a side-effect with Episode 7
 ```javascript
 yield Episode7.call(functionToCall, arg1, arg2)
 ```
+
+Passes through to JavaScript `Function.prototype.call`.
 
 The return value is not passed back to the yield statement. Episode 7
 will call `functionToCall` when running and return a Promise resolving
@@ -37,20 +44,30 @@ each side-effect's returned Promise.
 Each side-effect function is executed via standard
 JavaScript `Function.prototype.call`.
 
+Returns a Promise of the return value from
+the generator.
+
 */
 function recursiveRun(genInstance, nextArg) {
-  let nextResult = genInstance.next(nextArg);
-  if (nextResult.done) {
-    return Promise.resolve(nextResult.value);
-  } else {
-    let v = nextResult.value;
-    let fn = v.fn;
-    let args = v.args;
-    // Side-effect function is called without `this`.
-    return fn.call(null, ...args)
-      .then(function(result) {
-        return recursiveRun(genInstance, result);
-      });
+  try {
+    let nextResult = genInstance.next(nextArg);
+    if (nextResult.done) {
+      return Promise.resolve(nextResult.value);
+    } else {
+      let v = nextResult.value;
+      let fn = v.fn;
+      let args = v.args;
+
+      // Promise-driven iteration through the generator.
+      // Side-effect function is called without `this`.
+      return fn.call(null, ...args)
+        .then(function(result) {
+          return recursiveRun(genInstance, result);
+        });
+    }
+
+  } catch(error) {
+    return Promise.reject(error);
   }
 }
 
