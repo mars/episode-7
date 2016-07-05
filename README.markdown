@@ -28,6 +28,11 @@ Install
 npm install episode-7 --save
 ```
 
+Changes
+-------
+
+See: [CHANGELOG](CHANGELOG.markdown)
+
 Usage
 -----
 
