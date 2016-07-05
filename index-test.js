@@ -9,7 +9,7 @@ test('Run a generator yielding promises of side-effects', t => {
     fortune = fortune.concat( yield Episode7.call(customerAsks, question, subject) );
     fortune = fortune.concat( yield Episode7.call(readerSays, '🔮') );
     fortune = fortune.concat( yield Episode7.call(crystalProjects, '💰') );
-    return Promise.resolve(fortune);
+    return fortune;
   }
 
   function customerAsks(...v) {
