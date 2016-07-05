@@ -10,6 +10,7 @@ Returns a Promise resolving when the generator is done.
 function run(generator, ...args) {
   try {
     let g = generator(...args);
+    g.episode7Name = generator.name;
     return recursiveRun(g);
 
   } catch(error) {
@@ -58,17 +59,54 @@ function recursiveRun(genInstance, nextArg) {
       let fn = v.fn;
       let args = v.args;
 
-      // Promise-driven iteration through the generator.
+      if (fn == null || args == null) {
+        throw new Error('`Episode7.run` requires using `Episode7.call` with every `yield`. '+
+          'Check all of the `yield` expressions in [Function: '+genInstance.episode7Name+']');
+      }
+
+      // Iterate through the generator, handling
+      // promises & nested generators.
       // Side-effect function is called without `this`.
-      return fn.call(null, ...args)
+      let sideEffect;
+      if (isGeneratorFunction(fn)) {
+        sideEffect = Promise.resolve()
+          .then(function() {
+            // Wrapped in `then` to promisify return value
+            return run(fn, ...args)
+          })
+      } else {
+        sideEffect = Promise.resolve()
+          .then(function() {
+            // Wrapped in `then` to promisify return value
+            return fn.call(null, ...args)
+          })
+      }
+      return sideEffect
         .then(function(result) {
           return recursiveRun(genInstance, result);
-        });
+        })
     }
 
   } catch(error) {
     return Promise.reject(error);
   }
+}
+
+/*
+Internal helpers.
+
+Source: https://github.com/tj/co/blob/717b043371ba057cb7a4a2a4e47120d598116ed7/index.js
+
+*/
+function isGenerator(obj) {
+  return 'function' == typeof obj.next && 'function' == typeof obj.throw;
+}
+function isGeneratorFunction(obj) {
+  if (obj == null) return false;
+  var constructor = obj.constructor;
+  if (!constructor) return false;
+  if ('GeneratorFunction' === constructor.name || 'GeneratorFunction' === constructor.displayName) return true;
+  return isGenerator(constructor.prototype);
 }
 
 module.exports = {

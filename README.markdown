@@ -40,7 +40,7 @@ function fetchJson(url) {
   return fetch(url).then( response => response.json() );
 }
 
-// Compose a Generator for a async call sequence.
+// Compose a Generator for an async call sequence.
 function* findFirstMovie(searchTerm) {
 
   // Wrap yielded function calls with Episode 7.
