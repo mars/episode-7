@@ -4,12 +4,17 @@ const Episode7 = require('.');
 test('Run a generator yielding promises of side-effects', t => {
   t.plan(4);
 
-  function* fortuneTeller() {
+  function* fortuneTeller(question, subject) {
     let fortune = [];
-    fortune.push( yield Episode7.call(readerSays, '🔮') );
-    fortune.push( yield Episode7.call(crystalProjects, '💰') );
-    t.deepEqual(['🔮', '💰'], fortune);
+    fortune = fortune.concat( yield Episode7.call(customerAsks, question, subject) );
+    fortune = fortune.concat( yield Episode7.call(readerSays, '🔮') );
+    fortune = fortune.concat( yield Episode7.call(crystalProjects, '💰') );
     return Promise.resolve(fortune);
+  }
+
+  function customerAsks(...v) {
+    t.deepEqual(['📡', '👽'], v)
+    return Promise.resolve(v);
   }
 
   function readerSays(v) {
@@ -22,8 +27,8 @@ test('Run a generator yielding promises of side-effects', t => {
     return Promise.resolve(v);
   }
 
-  return Episode7.run(fortuneTeller)
-    .then( fortune => t.deepEqual(['🔮', '💰'], fortune) );
+  return Episode7.run(fortuneTeller, '📡', '👽')
+    .then( fortune => t.deepEqual(['📡', '👽', '🔮', '💰'], fortune) );
 });
 
 test('Clearly present side-effect errors', t => {
