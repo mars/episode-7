@@ -26,6 +26,30 @@ test('Run a generator yielding promises of side-effects', t => {
     .then( fortune => t.deepEqual(['🔮', '💰'], fortune) );
 });
 
+test('Clearly present side-effect errors', t => {
+  t.plan(1);
+
+  const fortunesFoolError = new Error('🚑');
+
+  function* fortuneTeller() {
+    let fortune = [];
+    fortune.push( yield Episode7.call(readerSays, '🔮') );
+    fortune.push( yield Episode7.call(crystalProjects, '💰') );
+  }
+
+  function readerSays(v) {
+    return Promise.resolve(v);
+  }
+
+  function crystalProjects(v) {
+    throw fortunesFoolError;
+    return Promise.resolve(v);
+  }
+
+  return Episode7.run(fortuneTeller)
+    .catch( error => t.is(error, fortunesFoolError) );
+});
+
 test('Easily test yielded calls, mock their return values', t => {
   t.plan(4);
 
@@ -41,19 +65,19 @@ test('Easily test yielded calls, mock their return values', t => {
   }
 
   // Inital generator args may be passed in from constructor
-  let doer = emojiPoem('🔋');
+  let reading = emojiPoem('🔋');
   let it;
   // First `next` does not provide a value, because nothing has yet been yielded
-  it = doer.next();
+  it = reading.next();
   t.deepEqual({ fn: iPromise, args: ['🔋'] }, it.value);
 
   // Mock return value from previous yield by passing arg to `next`
-  it = doer.next('💡');
+  it = reading.next('💡');
   t.deepEqual({ fn: iPromise, args: ['💡'] }, it.value);
 
-  it = doer.next('🎛');
+  it = reading.next('🎛');
   t.deepEqual({ fn: iPromise, args: ['🎛'] }, it.value);
 
-  it = doer.next();
+  it = reading.next();
   t.true(it.done);
 });
