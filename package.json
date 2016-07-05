@@ -1,0 +1,17 @@
+{
+  "name": "episode-7",
+  "version": "1.0.0",
+  "description": "Sequence async side-effects with ES6 generators and easily test them.",
+  "engines": {
+    "node": ">=6.2.0"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "`npm bin`/ava *-test.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "ava": "^0.15.2"
+  }
+}
