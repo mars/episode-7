@@ -1,6 +1,6 @@
 {
   "name": "episode-7",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Sequence async side-effects with ES6 generators and easily test them.",
   "engines": {
     "node": ">=6.2.0"
