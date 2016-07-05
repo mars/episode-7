@@ -4,15 +4,22 @@ Enhanced sequencing of asynchronous code with [ES6 generators](https://developer
 
 > A tiny module created to solve one problem in a generalized way.
 
-Easily test Promise-based side-effects.  
+# No more HTTP mocks 🚫🕸
+
+Write concise tests for an asynchronous story. Skip execution of side-effects. Instead, assert their call arguments, and mock their plain return value.
 See: ["Easily test yielded calls, mock their return values"](index-test.js)
 
-Inspired by the test-friendly generator architecture of [`redux-saga`](https://github.com/yelouafi/redux-saga).
+# Functional in nature 🌲
+
+Inspired by the test-friendly generator architecture of [`redux-saga`](https://github.com/yelouafi/redux-saga) and the pure side-effects of [Elm](http://elm-lang.org).
 
 Requires
 --------
 
-* [Node.js](https://nodejs.org) with ES6/Generator support (known to work in 6.2)
+[ES6/Generator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator) support.
+
+* Known to work in [Node.js](https://nodejs.org) 6.2
+* Should work in any ES6-compliant JavaScript environment
 
 Install
 -------
