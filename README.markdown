@@ -50,17 +50,21 @@ function* findFirstMovie(searchTerm) {
 
   // Wrap side-effects with Episode 7's `call`
   let results = yield Episode7.call(
-    fetchJson, `http://www.omdbapi.com/?s=${searchTerm}`
+    fetchJson,
+    `http://www.omdbapi.com/?s=${encodeURIComponent(searchTerm)}`
   );
-
+  
+  let firstResultId = results.Search[0].imdbID;
+  
   let movie = yield Episode7.call(
-    fetchJson, `http://www.omdbapi.com/?i=${results.Search[0].imdbID}`
+    fetchJson,
+    `http://www.omdbapi.com/?i=${encodeURIComponent(firstResultId)}`
   );
 
-  return Promise.resolve(movie);
+  return movie;
 }
 
-// Run the generator & get a Promise for the completed process.
+// Run the generator & get a Promise for the return value.
 Episode7.run(findFirstMovie, 'Episode 7')
   .then( movie => console.log(movie.Title) )
 ```
