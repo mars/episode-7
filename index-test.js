@@ -61,7 +61,7 @@ test('Run a generator yielding plain return values from side-effects', t => {
     .then( fortune => t.deepEqual(['📡', '👽', '🔮', '💰'], fortune) );
 });
 
-test('Run a generator yielding to nested generators for side-effects', t => {
+test('Run a generator yielding to nested `Episode7.call` for side-effects', t => {
   t.plan(3);
 
   function* fortuneTeller() {
