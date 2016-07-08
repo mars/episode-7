@@ -11,7 +11,7 @@ function run(generator, ...args) {
   try {
     let g = generator(...args);
     g.episode7Name = generator.name;
-    return recursiveRun(g);
+    return runUntilResolved(g);
 
   } catch(error) {
     return Promise.reject(error);
@@ -57,7 +57,7 @@ Returns a Promise of the return value from
 the generator.
 
 */
-function recursiveRun(genInstance, nextArg) {
+function runUntilResolved(genInstance, nextArg) {
   try {
     let nextResult = genInstance.next(nextArg);
     if (nextResult.done) {
@@ -96,7 +96,7 @@ function recursiveRun(genInstance, nextArg) {
       }
       return sideEffect
         .then(function(result) {
-          return recursiveRun(genInstance, result);
+          return runUntilResolved(genInstance, result);
         })
     }
 
