@@ -54,20 +54,17 @@ Usage
 const Episode7 = require('episode-7');
 const fetch = require('node-fetch');
 
-// Barebones helper to fetch & decode JSON.
-function fetchJson(url) {
-  return fetch(url).then( response => response.json() );
-}
-
 // Compose a Generator for an async call sequence.
+//
 function* findFirstMovie(searchTerm) {
 
   // Wrap side-effects with Episode 7's `call`
+  //
   let results = yield Episode7.call(
     fetchJson,
     `http://www.omdbapi.com/?s=${encodeURIComponent(searchTerm)}`
   );
-  
+
   let firstResultId = results.Search[0].imdbID;
   
   let movie = yield Episode7.call(
@@ -78,11 +75,31 @@ function* findFirstMovie(searchTerm) {
   return movie;
 }
 
+// Side-effect function,
+// a barebones helper to fetch & decode JSON.
+//
+function fetchJson(url) {
+  return fetch(url).then( response => response.json() );
+}
+
 // Run the generator & get a Promise for the return value.
+//
 Episode7.run(findFirstMovie, 'Episode 7')
   .then( movie => console.log(movie.Title) )
   .catch( error => console.error(error) )
 ```
+
+### Smooth running tips 🚝
+
+#### Handle errors
+
+[`catch`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise/catch) after `Episode7.run` to handle errors from the async flow (log|exit|retry).
+
+Avoid catching within side-effect functions. Allow their errors to bubble up.
+
+#### Name generator functions
+
+Declare generator functions as [named function expressions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/function); this makes stacktraces & error messages more meaningful.
 
 
 Background
