@@ -2,7 +2,7 @@ Episode 7 📺
 ============
 Enhanced sequencing of asynchronous code with [ES6 generators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator).
 
-Use this module to:
+[![Build Status](https://travis-ci.org/mars/episode-7.svg?branch=master)](https://travis-ci.org/mars/episode-7)
 
 * model complex side-effects as synchronous stories
   * multi-request HTTP/REST API flows with a final result
