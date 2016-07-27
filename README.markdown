@@ -55,7 +55,7 @@ Usage
 const Episode7 = require('episode-7');
 const fetch = require('node-fetch');
 
-// Compose a Generator for an async call sequence.
+// Compose an Episode 7 Generator for an async call sequence.
 //
 function* findFirstMovie(searchTerm) {
 
@@ -66,8 +66,12 @@ function* findFirstMovie(searchTerm) {
     `http://www.omdbapi.com/?s=${encodeURIComponent(searchTerm)}`
   );
 
+  // Do something programmatic with the result.
+  //
   let firstResultId = results.Search[0].imdbID;
   
+  // Use that transformed value to make the next call.
+  //
   let movie = yield Episode7.call(
     fetchJson,
     `http://www.omdbapi.com/?i=${encodeURIComponent(firstResultId)}`
@@ -83,7 +87,7 @@ function fetchJson(url) {
   return fetch(url).then( response => response.json() );
 }
 
-// Run the generator & get a Promise for the return value.
+// Run the generator with Episode 7, returning a promise.
 //
 Episode7.run(findFirstMovie, 'Episode 7')
   .then( movie => console.log(movie.Title) )
