@@ -3,6 +3,7 @@ Episode 7 📺
 Enhanced sequencing of asynchronous code with [ES6 generators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator).
 
 [![Build Status](https://travis-ci.org/mars/episode-7.svg?branch=master)](https://travis-ci.org/mars/episode-7)
+[![npm Module](https://img.shields.io/npm/v/episode-7.svg)](https://www.npmjs.com/package/episode-7)
 
 * model complex side-effects as synchronous stories
   * multi-request HTTP/REST API flows with a final result
@@ -104,6 +105,4 @@ Declare generator functions as [named function expressions](https://developer.mo
 
 Background
 ----------
-How many times can a person write web service API calls in a dependent sequence, e.g. authenticate, fetch identity, query for records, then create or update those records? So many variations of this theme are created everyday, frequently involving multiple services.
-
-I created this module to make it easy to code sequences of web service API requests interleaved with programmatic logic. I'm pulling the essence of [`redux-saga`](https://github.com/yelouafi/redux-saga) into the smallest, plainest surface area conceivable.
+I created this module to make it easy to code & test sequences of web service API requests interleaved with programmatic logic. I'm pulling the essence of [`redux-saga`](https://github.com/yelouafi/redux-saga) into the smallest, plainest surface area conceivable.
