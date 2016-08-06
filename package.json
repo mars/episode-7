@@ -10,12 +10,12 @@
     "test": "`npm bin`/ava *-test.js"
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/mars/episode-7.git"
+    "type": "git",
+    "url": "https://github.com/mars/episode-7.git"
   },
   "author": "m@marsorange.com",
   "license": "MIT",
   "devDependencies": {
-    "ava": "^0.15.2"
+    "ava": "^0.16.0"
   }
 }
