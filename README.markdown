@@ -1,32 +1,27 @@
 Episode 7 📺
 ============
-Enhanced sequencing of asynchronous code with [ES6 generators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator).
+A facade for side-effects: write test-friendly, async/await-style, JS code.
 
 [![Build Status](https://travis-ci.org/mars/episode-7.svg?branch=master)](https://travis-ci.org/mars/episode-7)
 [![npm Module](https://img.shields.io/npm/v/episode-7.svg)](https://www.npmjs.com/package/episode-7)
 
-* model complex side-effects as synchronous stories
-  * multi-request HTTP/REST API flows with a final result
-  * infinite stream processors
-  * see: [ES6 Generators in Depth](https://ponyfoo.com/articles/es6-generators-in-depth)
-* handle async errors confidently through Promise `catch`
-* minimize the ceremony around a testable async abstraction
 
-It's a tiny library:
+Care about unit testing around [side-effects](https://en.wikipedia.org/wiki/Side_effect_(computer_science))? You may fall in love with Episode 7.
+
+### Episode 7 is a simpler way
+
+* spy on, intercept, & fake async function calls
+* avoid brittle HTTP mocks
+* confidently handle async errors
+
+### A tiny library 🐿
 
 * no production npm dependencies
 * <100-lines-of-code (without comments)
-* [Read it](index.js); I've already said too much.
 
+### Functional in nature 🌲
 
-# No more HTTP mocks 🚫🕸
-
-Write concise tests for an asynchronous story. Skip execution of side-effects. Instead, assert their call arguments, and mock their plain return value.
-See: ["Easily test yielded calls, mock their return values"](index-test.js)
-
-# Functional in nature 🌲
-
-Inspired by the test-friendly generator architecture of [`redux-saga`](https://github.com/yelouafi/redux-saga) and the pure side-effects of [Elm](http://elm-lang.org).
+Inspired by the test-friendly [generator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator) architecture of [`redux-saga`](https://github.com/yelouafi/redux-saga) and the pure side-effects of [Elm](http://elm-lang.org).
 
 Requires
 --------
